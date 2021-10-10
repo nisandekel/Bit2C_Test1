@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bit2C_Test1.DataBase;
+using Bit2C_Test1.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,22 +10,36 @@ namespace Bit2C_Test1.Classes
     public class User
     {
         private string _userName;
-        public string _password;
+        private string _password;
+        private DBService _dbService;
 
-        public void Init(string userName, string password)
+        public string UserName { get { return _userName; } }
+        public string Password { get { return _password; } }
+
+        public void Init(UserModel userModel)
         {
-            this._userName = userName;
-            this._password = password;
+            this._userName = userModel.UserName;
+            this._password = userModel.Password;
+            _dbService = new DBService();
         }
 
-        public CreateUser()
+        public void CreateUser()
         {
-
+            this._dbService.CreateUser(this);
         }
 
-        public AuthenticateAccount()
+        public bool AuthenticateAccount()
         {
-
+            List<UserModel> users = this._dbService.GetAllUsers();
+            bool isValid = false;
+            foreach(UserModel userModel in users)
+            {
+                if(userModel.UserName == this._userName && userModel.Password == this._password)
+                {
+                    isValid = true;
+                }
+            }
+            return isValid;
         }
     }
 }

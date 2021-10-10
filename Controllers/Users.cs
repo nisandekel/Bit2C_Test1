@@ -1,4 +1,5 @@
-﻿using Bit2C_Test1.Models;
+﻿using Bit2C_Test1.Classes;
+using Bit2C_Test1.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,17 +13,21 @@ namespace Bit2C_Test1.Controllers
     public class Users : ControllerBase
     {
         [HttpPost]
-        public void CreateUser([FromBody] UserModel newAccount)
+        [Route("createuser")]
+        public void CreateUser([FromBody] UserModel newUser)
         {
-
+            User user = new User();
+            user.Init(newUser);
+            user.CreateUser();
         }
 
-        [HttpGet]
-        public void SignIn()
+        [HttpPost]
+        [Route("signin")]
+        public bool SignIn([FromBody] UserModel newUser)
         {
-
+            User user = new User();
+            user.Init(newUser);
+            return user.AuthenticateAccount();
         }
-
-
     }
 }
