@@ -26,7 +26,7 @@ namespace Bit2C_Test1.DataBase
                 using (SqlCommand cmd = new SqlCommand("CreateUser", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@UserName", SqlDbType.VarChar, 50).Value = user.UserName;
+                    cmd.Parameters.Add("@Email", SqlDbType.VarChar, 50).Value = user.Email;
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar, 50).Value = user.Password;
 
                     con.Open();
@@ -49,7 +49,7 @@ namespace Bit2C_Test1.DataBase
                     while (reader.Read())
                     {
                         UserModel user = new UserModel();
-                        user.UserName = reader["userName"].ToString();
+                        user.Email = reader["email"].ToString();
                         user.Password = reader["password"].ToString();
                         users.Add(user);
                     }
@@ -71,7 +71,7 @@ namespace Bit2C_Test1.DataBase
                     cmd.Parameters.Add("@Price", SqlDbType.VarChar, 50).Value = order.Price;
                     cmd.Parameters.Add("@Amount", SqlDbType.VarChar, 50).Value = order.Amount;
                     cmd.Parameters.Add("@Type", SqlDbType.VarChar, 10).Value = order.Type;
-                    cmd.Parameters.Add("@UserName", SqlDbType.VarChar, 50).Value = order.UserName;
+                    cmd.Parameters.Add("@Email", SqlDbType.VarChar, 50).Value = order.Email;
         
 
                     con.Open();
@@ -82,7 +82,7 @@ namespace Bit2C_Test1.DataBase
 
         }
 
-        public List<OrderModel> GetOrders(string userName)
+        public List<OrderModel> GetOrders(string email)
         {
             List<OrderModel> orders = new List<OrderModel>();
             using (SqlConnection con = new SqlConnection(_connectionString))
@@ -90,7 +90,7 @@ namespace Bit2C_Test1.DataBase
                 using (SqlCommand cmd = new SqlCommand("GetAllOrders", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@UserName", SqlDbType.VarChar, 50).Value = userName;
+                    cmd.Parameters.Add("@Email", SqlDbType.VarChar, 50).Value = email;
                     con.Open();
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
@@ -99,7 +99,9 @@ namespace Bit2C_Test1.DataBase
                         order.Price = reader["price"].ToString();
                         order.Amount = reader["amount"].ToString();
                         order.Type = reader["type"].ToString();
-                        order.UserName = reader["userName"].ToString();
+                        order.Email = reader["email"].ToString();
+                        order.Id = reader["orderId"].ToString();
+                        orders.Add(order);
                     }
                     con.Close();
                 }

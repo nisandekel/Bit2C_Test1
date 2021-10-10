@@ -9,16 +9,16 @@ namespace Bit2C_Test1.Classes
 {
     public class User
     {
-        private string _userName;
+        private string _email;
         private string _password;
         private DBService _dbService;
 
-        public string UserName { get { return _userName; } }
+        public string Email { get { return _email; } }
         public string Password { get { return _password; } }
 
         public void Init(UserModel userModel)
         {
-            this._userName = userModel.UserName;
+            this._email = userModel.Email;
             this._password = userModel.Password;
             _dbService = new DBService();
         }
@@ -34,7 +34,7 @@ namespace Bit2C_Test1.Classes
             bool isValid = false;
             foreach(UserModel userModel in users)
             {
-                if(userModel.UserName == this._userName && userModel.Password == this._password)
+                if(userModel.Email == this._email && userModel.Password == this._password)
                 {
                     isValid = true;
                 }

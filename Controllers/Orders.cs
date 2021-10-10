@@ -25,14 +25,15 @@ namespace Bit2C_Test1.Controllers
             order.CreateOrder();
         }
 
-        [HttpGet]
+        [HttpGet("{email}")]
         [Route("getallorders")]
         public string GetAllOrders()
         {
-            string userName = HttpContext.Request.Query["userName"];
+            string email = HttpContext.Request.Query["email"].ToString();
             Order order = new Order();
+            order.Init();
             List<OrderModel> orderList = new List<OrderModel>();
-            orderList = order.GetOrders(userName);
+            orderList = order.GetOrders(email);
             string orderListJson = JsonSerializer.Serialize(orderList);
             return orderListJson;
         }
